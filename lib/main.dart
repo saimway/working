@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:math';
 
@@ -69,7 +69,7 @@ class ChronoProvider with ChangeNotifier {
   }
 
   Future<void> _initNotifications() async {
-    tz.initializeTimeZones();
+    tz_data.initializeTimeZones();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -241,7 +241,7 @@ class ChronoProvider with ChangeNotifier {
       date.hashCode + 1000,
       'Alarm: ${date.displayName}',
       'Time to check in!',
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+      tz.TZDateTime.now(tz.UTC).add(const Duration(seconds: 10)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'alarm_channel',
@@ -264,7 +264,7 @@ class ChronoProvider with ChangeNotifier {
       date.hashCode + 2000,
       'URGENT: ${date.displayName}',
       'IMMEDIATE ACTION REQUIRED',
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      tz.TZDateTime.now(tz.UTC).add(const Duration(seconds: 5)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'high_importance_channel',

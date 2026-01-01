@@ -5,6 +5,7 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,6 +25,7 @@ jobs:
       with:
         flutter-version: '3.x'
         channel: 'stable'
+        cache: true
 
     - name: Install dependencies
       run: flutter pub get
