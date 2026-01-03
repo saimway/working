@@ -42,6 +42,18 @@ class ChronoDate {
     if (isHyperday) return "HYPERDAY";
     return "${kMonthNames[monthIndex]} - Day ${dayIndex + 1}";
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ChronoDate &&
+        other.monthIndex == monthIndex &&
+        other.dayIndex == dayIndex &&
+        other.isHyperday == isHyperday;
+  }
+
+  @override
+  int get hashCode => Object.hash(monthIndex, dayIndex, isHyperday);
 }
 
 // ==========================================
