@@ -416,6 +416,7 @@ class DashboardScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: const Color(0xFF1337ec),
+        tooltip: 'Add Event',
         child: const Icon(Icons.add),
       ),
     );
@@ -534,20 +535,24 @@ class DayCell extends StatelessWidget {
       color = Colors.white.withOpacity(0.1); // Gray
     }
 
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (ctx) => DayActionDialog(date: date),
-        );
-      },
-      child: Container(
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(4),
           boxShadow: progress >= 50 ? [
             BoxShadow(color: color.withOpacity(0.4), blurRadius: 4, spreadRadius: 1)
           ] : [],
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(4),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (ctx) => DayActionDialog(date: date),
+            );
+          },
         ),
       ),
     );
@@ -657,6 +662,10 @@ class _DayActionDialogState extends State<DayActionDialog> {
                   max: 100,
                   activeColor: const Color(0xFF1337ec),
                   inactiveColor: Colors.white.withOpacity(0.1),
+                  label: '${_currentProgress.toInt()}%',
+                  semanticFormatterCallback: (double value) {
+                    return '${value.toInt()} percent';
+                  },
                   onChanged: (val) {
                     setState(() {
                       _currentProgress = val;
