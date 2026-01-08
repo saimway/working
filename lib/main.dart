@@ -416,6 +416,7 @@ class DashboardScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: const Color(0xFF1337ec),
+        tooltip: 'Add Event',
         child: const Icon(Icons.add),
       ),
     );
@@ -534,20 +535,26 @@ class DayCell extends StatelessWidget {
       color = Colors.white.withOpacity(0.1); // Gray
     }
 
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (ctx) => DayActionDialog(date: date),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: progress >= 50 ? [
-            BoxShadow(color: color.withOpacity(0.4), blurRadius: 4, spreadRadius: 1)
-          ] : [],
+    return Semantics(
+      label: date.displayName,
+      value: "${progress.toInt()}% complete",
+      button: true,
+      hint: "Double tap to view details or set reminders",
+      child: GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (ctx) => DayActionDialog(date: date),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+            boxShadow: progress >= 50 ? [
+              BoxShadow(color: color.withOpacity(0.4), blurRadius: 4, spreadRadius: 1)
+            ] : [],
+          ),
         ),
       ),
     );
